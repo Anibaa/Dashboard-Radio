@@ -1,6 +1,7 @@
 import { useState } from 'preact/hooks';
 import { useAuth } from './hooks/useAuth';
 import { NavBar } from './components/NavBar';
+import { Header } from './components/Header';
 import { InstallPrompt } from './components/InstallPrompt';
 import { SignInPage } from './pages/SignInPage';
 import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
@@ -73,9 +74,12 @@ export function App() {
   return (
     <div class="flex flex-col md:flex-row h-screen bg-slate-950 text-white overflow-hidden">
       <NavBar activePage={page} onNavigate={setPage} installBarVisible={installBarVisible} />
-      <main class="flex-1 overflow-y-auto">
-        {renderPage()}
-      </main>
+      <div class="flex-1 flex flex-col overflow-hidden">
+        <Header user={user} onNavigate={setPage} onSignOut={handleSignOut} />
+        <main class="flex-1 overflow-y-auto">
+          {renderPage()}
+        </main>
+      </div>
       <InstallPrompt onVisibilityChange={setInstallBarVisible} />
     </div>
   );
