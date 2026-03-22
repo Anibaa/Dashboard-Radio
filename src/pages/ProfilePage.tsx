@@ -41,103 +41,184 @@ export function ProfilePage({ user, onSignOut, onUpdate }: Props) {
   };
 
   return (
-    <div class="p-4 space-y-4 pb-20 md:pb-4 max-w-lg">
-      <h1 class="text-white text-xl font-bold">Profile</h1>
-
-      {/* User Info Card */}
-      <Card>
-        <div class="flex items-center gap-4 mb-6">
-          <Avatar name={user.name} size="lg" online />
-          <div class="flex-1 min-w-0">
-            <p class="text-white font-bold text-lg">{user.name}</p>
-            <p class="text-slate-400 text-sm">{user.email}</p>
-          </div>
-          <Badge label={user.role} color={user.role === 'admin' ? 'green' : 'blue'} />
+    <div class="p-4 md:p-6 pb-20 md:pb-6">
+      <div class="max-w-6xl mx-auto space-y-6">
+        {/* Page Title */}
+        <div>
+          <h1 class="text-white text-2xl md:text-3xl font-bold">Profile</h1>
+          <p class="text-slate-400 text-sm mt-1">Manage your account settings and preferences</p>
         </div>
 
-        {editing ? (
-          <div class="space-y-4">
-            <div>
-              <label class="block text-slate-400 text-xs font-medium mb-2">Name</label>
-              <input
-                type="text"
-                value={name}
-                onInput={(e) => setName((e.target as HTMLInputElement).value)}
-                class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-sm focus:outline-none focus:border-emerald-500 transition-colors"
-              />
-            </div>
-
-            <div>
-              <label class="block text-slate-400 text-xs font-medium mb-2">Callsign</label>
-              <input
-                type="text"
-                value={callsign}
-                onInput={(e) => setCallsign((e.target as HTMLInputElement).value)}
-                class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2 text-slate-100 text-sm focus:outline-none focus:border-emerald-500 transition-colors"
-              />
-            </div>
-
-            {error && (
-              <div class="bg-red-900/30 border border-red-700 rounded-lg px-3 py-2 text-red-300 text-xs">
-                {error}
+        {/* Desktop: 2-column layout, Mobile: stacked */}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Profile Info */}
+          <div class="lg:col-span-2 space-y-6">
+            {/* User Card */}
+            <Card>
+              <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6 pb-6 border-b border-slate-700">
+                <Avatar name={user.name} size="lg" online />
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-3 mb-1">
+                    <h2 class="text-white font-bold text-xl">{user.name}</h2>
+                    <Badge label={user.role} color={user.role === 'admin' ? 'green' : 'blue'} />
+                  </div>
+                  <p class="text-slate-400 text-sm">{user.email}</p>
+                  <p class="text-emerald-400 text-sm font-mono mt-1">{user.callsign}</p>
+                </div>
+                {!editing && (
+                  <Button onClick={() => setEditing(true)} variant="secondary" size="sm">
+                    Edit Profile
+                  </Button>
+                )}
               </div>
-            )}
 
-            <div class="flex gap-2">
-              <Button onClick={handleSave} disabled={saving} class="flex-1">
-                {saving ? 'Saving...' : 'Save'}
-              </Button>
-              <Button onClick={handleCancel} variant="ghost" disabled={saving} class="flex-1">
-                Cancel
-              </Button>
+              {editing ? (
+                <div class="space-y-4">
+                  <h3 class="text-white font-semibold text-sm uppercase tracking-wider">Edit Information</h3>
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label class="block text-slate-400 text-xs font-medium mb-2">Full Name</label>
+                      <input
+                        type="text"
+                        value={name}
+                        onInput={(e) => setName((e.target as HTMLInputElement).value)}
+                        class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 text-sm focus:outline-none focus:border-emerald-500 transition-colors"
+                      />
+                    </div>
+
+                    <div>
+                      <label class="block text-slate-400 text-xs font-medium mb-2">Callsign</label>
+                      <input
+                        type="text"
+                        value={callsign}
+                        onInput={(e) => setCallsign((e.target as HTMLInputElement).value)}
+                        class="w-full bg-slate-900 border border-slate-600 rounded-lg px-3 py-2.5 text-slate-100 text-sm focus:outline-none focus:border-emerald-500 transition-colors"
+                      />
+                    </div>
+                  </div>
+
+                  {error && (
+                    <div class="bg-red-900/30 border border-red-700 rounded-lg px-3 py-2 text-red-300 text-xs">
+                      {error}
+                    </div>
+                  )}
+
+                  <div class="flex gap-3 pt-2">
+                    <Button onClick={handleSave} disabled={saving} class="flex-1 sm:flex-initial">
+                      {saving ? 'Saving...' : 'Save Changes'}
+                    </Button>
+                    <Button onClick={handleCancel} variant="ghost" disabled={saving}>
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div class="space-y-4">
+                  <h3 class="text-white font-semibold text-sm uppercase tracking-wider">Account Details</h3>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <InfoField label="User ID" value={user.id} mono />
+                    <InfoField label="Role" value={user.role} />
+                    <InfoField label="Email" value={user.email} />
+                    <InfoField label="Callsign" value={user.callsign} mono />
+                  </div>
+                </div>
+              )}
+            </Card>
+
+            {/* Security Card */}
+            <Card title="Security & Privacy">
+              <div class="space-y-2">
+                <ActionButton icon="🔑" label="Change Password" description="Update your password" />
+                <ActionButton icon="🔐" label="Two-Factor Authentication" description="Add an extra layer of security" />
+                <ActionButton icon="📱" label="Connected Devices" description="Manage your active sessions" />
+                <ActionButton icon="🗑️" label="Delete Account" description="Permanently delete your account" danger />
+              </div>
+            </Card>
+          </div>
+
+          {/* Right Column - Quick Actions & Info */}
+          <div class="space-y-6">
+            {/* Account Actions */}
+            <Card title="Quick Actions">
+              <div class="space-y-2">
+                <ActionButton icon="🔔" label="Notifications" description="Manage alerts" compact />
+                <ActionButton icon="🌐" label="Language" description="English" compact />
+                <ActionButton icon="🎨" label="Appearance" description="Dark theme" compact />
+              </div>
+            </Card>
+
+            {/* Stats Card */}
+            <Card title="Activity">
+              <div class="space-y-3">
+                <StatItem label="Messages Sent" value="1,247" />
+                <StatItem label="Missions" value="23" />
+                <StatItem label="Uptime" value="99.8%" />
+                <StatItem label="Last Active" value="Just now" />
+              </div>
+            </Card>
+
+            {/* Sign Out */}
+            <Button onClick={onSignOut} variant="danger" class="w-full">
+              Sign Out
+            </Button>
+
+            {/* App Info */}
+            <div class="text-center text-slate-500 text-xs space-y-1 pt-4">
+              <p class="font-semibold">TacComm v2.4.1</p>
+              <p>© 2024 Tactical Communications</p>
+              <div class="flex justify-center gap-3 pt-2">
+                <a href="#" class="hover:text-slate-400 transition-colors">Privacy</a>
+                <span>•</span>
+                <a href="#" class="hover:text-slate-400 transition-colors">Terms</a>
+                <span>•</span>
+                <a href="#" class="hover:text-slate-400 transition-colors">Help</a>
+              </div>
             </div>
           </div>
-        ) : (
-          <div class="space-y-3">
-            <Field label="Callsign" value={user.callsign} />
-            <Field label="Role" value={user.role} />
-            <Field label="User ID" value={user.id} />
-            <Button onClick={() => setEditing(true)} variant="secondary" class="w-full mt-4">
-              Edit Profile
-            </Button>
-          </div>
-        )}
-      </Card>
-
-      {/* Account Actions */}
-      <Card title="Account">
-        <div class="space-y-3">
-          <button class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-colors text-sm">
-            Change Password
-          </button>
-          <button class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-colors text-sm">
-            Notification Settings
-          </button>
-          <button class="w-full text-left px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-700 transition-colors text-sm">
-            Privacy & Security
-          </button>
         </div>
-      </Card>
-
-      {/* Sign Out */}
-      <Button onClick={onSignOut} variant="danger" class="w-full">
-        Sign Out
-      </Button>
-
-      {/* App Info */}
-      <div class="text-center text-slate-500 text-xs space-y-1">
-        <p>TacComm v2.4.1</p>
-        <p>© 2024 Tactical Communications</p>
       </div>
     </div>
   );
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+function InfoField({ label, value, mono }: { label: string; value: string; mono?: boolean }) {
+  return (
+    <div class="bg-slate-900 rounded-lg p-3">
+      <p class="text-slate-500 text-xs mb-1">{label}</p>
+      <p class={`text-slate-200 text-sm font-medium ${mono ? 'font-mono' : ''}`}>{value}</p>
+    </div>
+  );
+}
+
+function ActionButton({ icon, label, description, danger, compact }: { icon: string; label: string; description?: string; danger?: boolean; compact?: boolean }) {
+  return (
+    <button
+      class={`w-full flex items-center gap-3 text-left rounded-lg transition-colors ${
+        compact ? 'p-2' : 'p-3'
+      } ${
+        danger
+          ? 'hover:bg-red-900/20 text-red-400'
+          : 'hover:bg-slate-700 text-slate-300'
+      }`}
+    >
+      <span class={compact ? 'text-lg' : 'text-xl'}>{icon}</span>
+      <div class="flex-1 min-w-0">
+        <p class={`font-medium ${compact ? 'text-xs' : 'text-sm'}`}>{label}</p>
+        {description && <p class="text-slate-500 text-xs">{description}</p>}
+      </div>
+      <svg class="w-4 h-4 text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  );
+}
+
+function StatItem({ label, value }: { label: string; value: string }) {
   return (
     <div class="flex items-center justify-between py-2">
       <span class="text-slate-400 text-xs">{label}</span>
-      <span class="text-slate-200 text-sm font-medium">{value}</span>
+      <span class="text-emerald-400 text-sm font-semibold font-mono">{value}</span>
     </div>
   );
 }
