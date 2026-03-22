@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
 import { useAuth } from './hooks/useAuth';
+import { useTheme } from './hooks/useTheme';
 import { NavBar } from './components/NavBar';
 import { Header } from './components/Header';
 import { InstallPrompt } from './components/InstallPrompt';
@@ -16,6 +17,7 @@ type AuthView = 'signin' | 'forgot';
 
 export function App() {
   const { session, user, isAuthenticated, loading, signIn, signOut } = useAuth();
+  const { theme, toggleTheme } = useTheme();
   const [page, setPage] = useState<Page>('dashboard');
   const [authView, setAuthView] = useState<AuthView>('signin');
   const [installBarVisible, setInstallBarVisible] = useState(false);
@@ -75,7 +77,7 @@ export function App() {
     <div class="flex flex-col md:flex-row h-screen bg-slate-950 text-white overflow-hidden">
       <NavBar activePage={page} onNavigate={setPage} installBarVisible={installBarVisible} />
       <div class="flex-1 flex flex-col overflow-hidden">
-        <Header user={user} onNavigate={setPage} onSignOut={handleSignOut} />
+        <Header user={user} onNavigate={setPage} onSignOut={handleSignOut} theme={theme} onToggleTheme={toggleTheme} />
         <main class="flex-1 overflow-y-auto">
           {renderPage()}
         </main>
