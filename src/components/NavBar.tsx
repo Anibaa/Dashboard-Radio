@@ -3,6 +3,7 @@ import type { Page } from '../types/nav';
 interface Props {
   activePage: Page;
   onNavigate: (page: Page) => void;
+  installBarVisible?: boolean;
 }
 
 const navItems: { page: Page; icon: string; label: string }[] = [
@@ -12,9 +13,12 @@ const navItems: { page: Page; icon: string; label: string }[] = [
   { page: 'admin',     icon: '⚙️',  label: 'Admin' },
 ];
 
-export function NavBar({ activePage, onNavigate }: Props) {
+export function NavBar({ activePage, onNavigate, installBarVisible }: Props) {
   return (
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900 border-t border-slate-700 flex justify-around items-center h-16 z-50 md:static md:flex-col md:h-full md:w-20 md:border-t-0 md:border-r md:justify-start md:pt-6 md:gap-2">
+    <nav
+      class={`fixed left-0 right-0 bg-slate-900 border-t border-slate-700 flex justify-around items-center h-16 z-50 transition-all duration-300 md:static md:flex-col md:h-full md:w-20 md:border-t-0 md:border-r md:justify-start md:pt-6 md:gap-2 md:bottom-auto`}
+      style={installBarVisible ? { bottom: 'var(--install-bar-height, 140px)' } : { bottom: '0' }}
+    >
       {navItems.map(({ page, icon, label }) => (
         <button
           key={page}
