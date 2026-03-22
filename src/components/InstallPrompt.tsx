@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
+import { X, Share2, Plus, Check } from 'lucide-preact';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -116,9 +117,9 @@ export function InstallPrompt({ onVisibilityChange }: Props) {
           <button
             onClick={hide}
             aria-label="Dismiss"
-            class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-slate-800 text-slate-400 text-xs"
+            class="shrink-0 w-7 h-7 flex items-center justify-center rounded-full bg-slate-800 text-slate-400"
           >
-            ✕
+            <X size={14} />
           </button>
         </div>
       </div>
@@ -144,13 +145,13 @@ export function InstallPrompt({ onVisibilityChange }: Props) {
             <p class="text-slate-400 text-sm mb-6">Follow these steps in Safari to install TacComm:</p>
 
             <ol class="space-y-4">
-              <Step n={1} icon="⎙">
+              <Step n={1} icon={Share2}>
                 Tap the <span class="text-white font-semibold">Share</span> button at the bottom of Safari
               </Step>
-              <Step n={2} icon="📋">
+              <Step n={2} icon={Plus}>
                 Scroll down and tap <span class="text-white font-semibold">"Add to Home Screen"</span>
               </Step>
-              <Step n={3} icon="✅">
+              <Step n={3} icon={Check}>
                 Tap <span class="text-white font-semibold">Add</span> — done!
               </Step>
             </ol>
@@ -168,14 +169,14 @@ export function InstallPrompt({ onVisibilityChange }: Props) {
   );
 }
 
-function Step({ n, icon, children }: { n: number; icon: string; children: preact.ComponentChildren }) {
+function Step({ n, icon: Icon, children }: { n: number; icon: any; children: preact.ComponentChildren }) {
   return (
     <li class="flex items-start gap-4">
       <span class="w-7 h-7 rounded-full bg-emerald-700 text-white text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">
         {n}
       </span>
       <div class="flex items-center gap-2 flex-1">
-        <span class="text-2xl">{icon}</span>
+        <Icon size={20} class="text-emerald-400 shrink-0" />
         <p class="text-slate-300 text-sm leading-snug">{children}</p>
       </div>
     </li>

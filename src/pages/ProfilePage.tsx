@@ -1,4 +1,5 @@
 import { useState } from 'preact/hooks';
+import { Key, Shield, Smartphone, Trash2, Bell, Globe, Palette, ChevronRight } from 'lucide-preact';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
 import { Badge } from '../components/Badge';
@@ -129,10 +130,10 @@ export function ProfilePage({ user, onSignOut, onUpdate }: Props) {
             {/* Security Card */}
             <Card title="Security & Privacy">
               <div class="space-y-2">
-                <ActionButton icon="🔑" label="Change Password" description="Update your password" />
-                <ActionButton icon="🔐" label="Two-Factor Authentication" description="Add an extra layer of security" />
-                <ActionButton icon="📱" label="Connected Devices" description="Manage your active sessions" />
-                <ActionButton icon="🗑️" label="Delete Account" description="Permanently delete your account" danger />
+                <ActionButton icon={Key} label="Change Password" description="Update your password" />
+                <ActionButton icon={Shield} label="Two-Factor Authentication" description="Add an extra layer of security" />
+                <ActionButton icon={Smartphone} label="Connected Devices" description="Manage your active sessions" />
+                <ActionButton icon={Trash2} label="Delete Account" description="Permanently delete your account" danger />
               </div>
             </Card>
           </div>
@@ -142,9 +143,9 @@ export function ProfilePage({ user, onSignOut, onUpdate }: Props) {
             {/* Account Actions */}
             <Card title="Quick Actions">
               <div class="space-y-2">
-                <ActionButton icon="🔔" label="Notifications" description="Manage alerts" compact />
-                <ActionButton icon="🌐" label="Language" description="English" compact />
-                <ActionButton icon="🎨" label="Appearance" description="Dark theme" compact />
+                <ActionButton icon={Bell} label="Notifications" description="Manage alerts" compact />
+                <ActionButton icon={Globe} label="Language" description="English" compact />
+                <ActionButton icon={Palette} label="Appearance" description="Dark theme" compact />
               </div>
             </Card>
 
@@ -191,7 +192,7 @@ function InfoField({ label, value, mono }: { label: string; value: string; mono?
   );
 }
 
-function ActionButton({ icon, label, description, danger, compact }: { icon: string; label: string; description?: string; danger?: boolean; compact?: boolean }) {
+function ActionButton({ icon: Icon, label, description, danger, compact }: { icon: any; label: string; description?: string; danger?: boolean; compact?: boolean }) {
   return (
     <button
       class={`w-full flex items-center gap-3 text-left rounded-lg transition-colors ${
@@ -202,14 +203,12 @@ function ActionButton({ icon, label, description, danger, compact }: { icon: str
           : 'hover:bg-slate-700 text-slate-300'
       }`}
     >
-      <span class={compact ? 'text-lg' : 'text-xl'}>{icon}</span>
+      <Icon size={compact ? 16 : 18} />
       <div class="flex-1 min-w-0">
         <p class={`font-medium ${compact ? 'text-xs' : 'text-sm'}`}>{label}</p>
         {description && <p class="text-slate-500 text-xs">{description}</p>}
       </div>
-      <svg class="w-4 h-4 text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
+      <ChevronRight size={16} class="text-slate-600 shrink-0" />
     </button>
   );
 }

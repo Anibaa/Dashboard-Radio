@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'preact/hooks';
+import { Sun, Moon, ChevronDown, User, Settings, LogOut } from 'lucide-preact';
 import { Avatar } from './Avatar';
 import type { AuthUser } from '../types';
 import type { Page } from '../types/nav';
@@ -56,15 +57,7 @@ export function Header({ user, onNavigate, onSignOut, theme, onToggleTheme }: Pr
           aria-label="Toggle theme"
           class="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors text-slate-400 hover:text-white"
         >
-          {theme === 'dark' ? (
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-            </svg>
-          ) : (
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-            </svg>
-          )}
+          {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
         </button>
 
         {/* User Dropdown */}
@@ -73,54 +66,50 @@ export function Header({ user, onNavigate, onSignOut, theme, onToggleTheme }: Pr
             onClick={() => setDropdownOpen(!dropdownOpen)}
             class="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-slate-800 transition-colors"
           >
-          <Avatar name={user.name} size="sm" online />
-          <div class="hidden md:block text-left">
-            <p class="text-white text-sm font-medium leading-tight">{user.name}</p>
-            <p class="text-slate-400 text-xs leading-tight">{user.callsign}</p>
-          </div>
-          <svg
-            class={`w-4 h-4 text-slate-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        {/* Dropdown Menu */}
-        {dropdownOpen && (
-          <div class="absolute right-0 top-full mt-2 w-56 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50 animate-fade-in">
-            {/* User Info in dropdown (mobile) */}
-            <div class="md:hidden px-4 py-3 border-b border-slate-700">
-              <p class="text-white text-sm font-semibold">{user.name}</p>
-              <p class="text-slate-400 text-xs">{user.email}</p>
+            <Avatar name={user.name} size="sm" online />
+            <div class="hidden md:block text-left">
+              <p class="text-white text-sm font-medium leading-tight">{user.name}</p>
+              <p class="text-slate-400 text-xs leading-tight">{user.callsign}</p>
             </div>
+            <ChevronDown
+              size={16}
+              class={`text-slate-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
 
-            {/* Menu Items */}
-            <div class="py-2">
-              <MenuItem
-                icon="👤"
-                label="Profile"
-                onClick={() => handleMenuClick('profile')}
-              />
-              <MenuItem
-                icon="⚙️"
-                label="Settings"
-                onClick={() => handleMenuClick('admin')}
-              />
-            </div>
+          {/* Dropdown Menu */}
+          {dropdownOpen && (
+            <div class="absolute right-0 top-full mt-2 w-56 bg-slate-800 border border-slate-700 rounded-xl shadow-2xl overflow-hidden z-50 animate-fade-in">
+              {/* User Info in dropdown (mobile) */}
+              <div class="md:hidden px-4 py-3 border-b border-slate-700">
+                <p class="text-white text-sm font-semibold">{user.name}</p>
+                <p class="text-slate-400 text-xs">{user.email}</p>
+              </div>
 
-            <div class="border-t border-slate-700 py-2">
-              <MenuItem
-                icon="🚪"
-                label="Sign Out"
-                onClick={handleSignOut}
-                danger
-              />
+              {/* Menu Items */}
+              <div class="py-2">
+                <MenuItem
+                  icon={User}
+                  label="Profile"
+                  onClick={() => handleMenuClick('profile')}
+                />
+                <MenuItem
+                  icon={Settings}
+                  label="Settings"
+                  onClick={() => handleMenuClick('admin')}
+                />
+              </div>
+
+              <div class="border-t border-slate-700 py-2">
+                <MenuItem
+                  icon={LogOut}
+                  label="Sign Out"
+                  onClick={handleSignOut}
+                  danger
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
         </div>
       </div>
     </header>
@@ -128,13 +117,13 @@ export function Header({ user, onNavigate, onSignOut, theme, onToggleTheme }: Pr
 }
 
 interface MenuItemProps {
-  icon: string;
+  icon: any;
   label: string;
   onClick: () => void;
   danger?: boolean;
 }
 
-function MenuItem({ icon, label, onClick, danger }: MenuItemProps) {
+function MenuItem({ icon: Icon, label, onClick, danger }: MenuItemProps) {
   return (
     <button
       onClick={onClick}
@@ -144,7 +133,7 @@ function MenuItem({ icon, label, onClick, danger }: MenuItemProps) {
           : 'text-slate-300 hover:bg-slate-700'
       }`}
     >
-      <span class="text-lg">{icon}</span>
+      <Icon size={18} />
       <span class="text-sm font-medium">{label}</span>
     </button>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'preact/hooks';
+import { RotateCcw, Download, Upload, Trash2, ChevronRight } from 'lucide-preact';
 import { api } from '../services/api';
 import { Card } from '../components/Card';
 import { Button } from '../components/Button';
@@ -190,10 +191,10 @@ export function AdminPage() {
             {/* Advanced Section */}
             <Card title="Advanced">
               <div class="space-y-3">
-                <ActionButton icon="🔄" label="Reset to Defaults" description="Restore factory settings" />
-                <ActionButton icon="📥" label="Export Configuration" description="Download settings as JSON" />
-                <ActionButton icon="📤" label="Import Configuration" description="Upload settings file" />
-                <ActionButton icon="🗑️" label="Clear Cache" description="Remove cached data" danger />
+                <ActionButton icon={RotateCcw} label="Reset to Defaults" description="Restore factory settings" />
+                <ActionButton icon={Download} label="Export Configuration" description="Download settings as JSON" />
+                <ActionButton icon={Upload} label="Import Configuration" description="Upload settings file" />
+                <ActionButton icon={Trash2} label="Clear Cache" description="Remove cached data" danger />
               </div>
             </Card>
           </>
@@ -230,7 +231,7 @@ function ToggleSwitch({ checked, onChange }: { checked: boolean; onChange: (val:
   );
 }
 
-function ActionButton({ icon, label, description, danger }: { icon: string; label: string; description?: string; danger?: boolean }) {
+function ActionButton({ icon: Icon, label, description, danger }: { icon: any; label: string; description?: string; danger?: boolean }) {
   return (
     <button
       class={`w-full flex items-center gap-3 p-3 text-left rounded-lg transition-colors ${
@@ -239,14 +240,12 @@ function ActionButton({ icon, label, description, danger }: { icon: string; labe
           : 'hover:bg-slate-700 text-slate-300'
       }`}
     >
-      <span class="text-xl">{icon}</span>
+      <Icon size={18} />
       <div class="flex-1 min-w-0">
         <p class="text-sm font-medium">{label}</p>
         {description && <p class="text-slate-500 text-xs">{description}</p>}
       </div>
-      <svg class="w-4 h-4 text-slate-600 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
+      <ChevronRight size={16} class="text-slate-600 shrink-0" />
     </button>
   );
 }
