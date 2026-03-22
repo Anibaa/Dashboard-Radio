@@ -1,3 +1,19 @@
+// ─── Auth ────────────────────────────────────────────────────────────────────
+export interface AuthUser {
+  id: string;
+  email: string;
+  password: string; // in real app, this would be hashed
+  name: string;
+  callsign: string;
+  avatarUrl?: string;
+  role: 'admin' | 'operator' | 'observer';
+}
+
+export interface AuthSession {
+  user: AuthUser;
+  token: string;
+}
+
 // ─── Device ──────────────────────────────────────────────────────────────────
 export interface DeviceStatus {
   id: string;

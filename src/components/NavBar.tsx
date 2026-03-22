@@ -11,6 +11,7 @@ const navItems: { page: Page; icon: string; label: string }[] = [
   { page: 'map',       icon: '🗺️',  label: 'Map' },
   { page: 'chat',      icon: '💬', label: 'Chat' },
   { page: 'admin',     icon: '⚙️',  label: 'Admin' },
+  { page: 'profile',   icon: '👤', label: 'Profile' },
 ];
 
 export function NavBar({ activePage, onNavigate, installBarVisible }: Props) {

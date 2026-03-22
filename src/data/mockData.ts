@@ -6,7 +6,16 @@ import type {
   PointOfInterest,
   TelemetrySample,
   AppSettings,
+  AuthUser,
 } from '../types';
+
+// ─── Auth Users ──────────────────────────────────────────────────────────────
+export const mockAuthUsers: AuthUser[] = [
+  { id: 'u1', email: 'alice@taccomm.io', password: 'alpha123', name: 'Alice Mercer',  callsign: 'ALPHA-1', role: 'admin' },
+  { id: 'u2', email: 'bob@taccomm.io',   password: 'bravo123', name: 'Bob Tanner',    callsign: 'BRAVO-2', role: 'operator' },
+  { id: 'u3', email: 'carol@taccomm.io', password: 'charlie123', name: 'Carol Vance', callsign: 'CHARLIE-3', role: 'operator' },
+  { id: 'u4', email: 'dan@taccomm.io',   password: 'delta123', name: 'Dan Ortiz',     callsign: 'DELTA-4', role: 'observer' },
+];
 
 // ─── Device ──────────────────────────────────────────────────────────────────
 export const mockDevice: DeviceStatus = {

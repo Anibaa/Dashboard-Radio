@@ -1,1 +1,1 @@
-export type Page = 'dashboard' | 'map' | 'chat' | 'admin';
+export type Page = 'dashboard' | 'map' | 'chat' | 'admin' | 'profile';
